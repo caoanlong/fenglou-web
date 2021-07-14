@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+#__next {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden auto;
+}
+
+.clearfix:before,.clearfix:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+.clearfix {
+	zoom: 1;
+}
+
+.aspectration {
+    position: relative; /*因为容器所有子元素需要绝对定位*/
+    height: 0; /*容器高度是由 padding 来控制，盒模型原理告诉你一切*/
+    width: 100%;
+}
+.aspectration[data-ratio="16:9"] {
+    padding-top: 56.25%;
+}
+.aspectration[data-ratio="4:3"]{
+    padding-top: 75%;
+}
+.aspectration[data-ratio="2:1"] {
+    padding-top: 50%;
+}
+.aspectration > .con {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+}
+.lazyload-wrapper {
+    position: relative;
+    height: 100%;
+}

@@ -1,0 +1,42 @@
+{
+    "name": "巨硬AV",
+    "short_name": "巨硬AV",
+    "description": "搞笑的免费在线短视频预告片分享,最新免费成人影片",
+    "icons": [
+        {
+            "src": "/icons/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },{
+            "src": "/icons/android-chrome-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png"
+        },{
+            "src":"/icons/android-chrome-512x512.png",
+            "sizes":"512x512",
+            "type":"image/png"
+        },{
+            "src":"/icons/android-chrome-maskable-192x192.png",
+            "sizes":"192x192",
+            "type":"image/png",
+            "purpose":"maskable"
+        },{
+            "src":"/icons/android-chrome-maskable-512x512.png",
+            "sizes":"512x512",
+            "type":"image/png",
+            "purpose":"maskable"
+        },{
+            "src":"/icons/apple-startup-1024x1024.png",
+            "sizes":"1024x1024",
+            "type":"image/png",
+            "purpose":"startup"
+        }
+    ],
+    "theme_color": "#000000",
+    "background_color": "#000000",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "prompt_message": "在主屏幕添加图标，以便快速访问 巨硬AV"
+}
