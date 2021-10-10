@@ -2,10 +2,10 @@ import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import SEO from '../components/SEO'
-import { State } from "../store"
+import { RootState } from "../store"
 
 function Custom404() {
-    const seo = useSelector((state: State) => state.seo)
+    const seo = useSelector((state: RootState) => state.config.seo)
     const router = useRouter()
     useEffect(() => {
         router.push('/')

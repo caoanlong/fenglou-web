@@ -8,7 +8,7 @@ import VodApi, { VodFindListParams } from '../../../../services/VodApi'
 import Vod from '../../../../types/Vod'
 import VodType from '../../../../types/VodType'
 import { useSelector } from 'react-redux'
-import { State } from '../../../../store'
+import { RootState } from '../../../../store'
 
 const ALL = '全部'
 const SORTLIST: Array<SortItem> = [
@@ -73,9 +73,9 @@ function List({
     pages 
 }: ListProps) {
     const router = useRouter()
-    const seo = useSelector((state: State) => state.seo)
+    const seo = useSelector((state: RootState) => state.config.seo)
     const { typeId, vodClass=ALL, orderBy=SORTLIST[0].code } = router.query
-    const vodTypes = useSelector((state: State) => state.typeList)
+    const vodTypes = useSelector((state: RootState) => state.config.typeList)
     const vodType = vodTypes.find((item: VodType) => item.typeId === Number(typeId))
     const typeExtendJson = JSON.parse(decodeUnicode((vodType?.typeExtend) as string))
     const classes = ALL + ',' + typeExtendJson?.class

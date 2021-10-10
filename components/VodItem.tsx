@@ -1,6 +1,7 @@
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import Link from 'next/link'
 import Vod from '../types/Vod'
+import VipTag from './VipTag'
 
 type VodItemProps = {
     vod: Vod,
@@ -11,10 +12,12 @@ function VodItem({ vod, isInShadow }: VodItemProps) {
     return (
         <Link href={`/detail/${vod.vodId}`}>
             <a 
-                className={`bg-white overflow-hidden ${isInShadow ? 'dark:bg-black' : 'dark:bg-gray-900 shadow-md rounded-lg'}`} 
+                className={`bg-white block overflow-hidden rounded-lg relative ${isInShadow ? 'dark:bg-black' : 'dark:bg-gray-900 shadow-md'}`} 
                 title={vod.vodName}>
+                <VipTag permission={vod.permission} />
                 <div className="aspectration" data-ratio="4:3">
-                    <div className={`con overflow-hidden ${isInShadow ? 'shadow-md rounded-lg' : ''}`}>
+                    <div 
+                        className={`con overflow-hidden ${isInShadow ? 'shadow-md rounded-lg' : ''}`}>
                         <LazyLoadImage
                             className={`h-full w-full object-cover ${isInShadow ? '' : 'rounded-t-lg'}`}
                             src={vod.vodPic.startsWith('http') ? vod.vodPic : process.env.site_url + '/' + vod.vodPic} 

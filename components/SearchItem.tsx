@@ -1,6 +1,7 @@
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import Link from 'next/link'
 import Vod from "../types/Vod"
+import VipTag from './VipTag'
 
 type SearchItemProps = {
     vod: Vod,
@@ -10,7 +11,8 @@ type SearchItemProps = {
 function SearchItem({ vod, index }: SearchItemProps) {
     return (
         <div className={`flex h-36 sm:h-52 p-4 ${index !== 0 ? 'border-t border-gray-200 dark:border-gray-800' : ''}`}>
-            <div className="w-32 sm:w-60 rounded-lg overflow-hidden">
+            <div className="w-32 sm:w-60 rounded-lg relative overflow-hidden">
+                <VipTag permission={vod.permission} />
                 <LazyLoadImage
                     className="h-full w-full object-cover"
                     src={vod.vodPic.startsWith('http') ? vod.vodPic : process.env.site_url + '/' + vod.vodPic} 

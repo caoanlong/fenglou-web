@@ -3,7 +3,7 @@ import React from 'react'
 import type { AppContext, AppProps } from 'next/app'
 import { wrapper } from '../store'
 import Layout from '../components/Layout'
-import TermApi from '../services/TermApi'
+import CommonApi from '../services/CommonApi'
 
 
 const WrappedApp = ({ Component, pageProps }: AppProps) => {
@@ -15,10 +15,18 @@ const WrappedApp = ({ Component, pageProps }: AppProps) => {
 }
 
 WrappedApp.getInitialProps = wrapper.getInitialAppProps(store => async ({ Component, ctx }: AppContext): Promise<any> => {
-	const { data } = await TermApi.categorys()
-	if (data.code === 200) {
-		store.dispatch({ type: 'SET_AREAS', payload: data.data })
+	const state = store.getState()
+	// 服务端获取不到store-state
+	if (!state.config.typeList || state.config.typeList.length === 0) {
+		const { data } = await CommonApi.info()
+		if (data.code === 200) {
+			store.dispatch({ type: 'SET_TYPES', payload: data.data.vodTypes })
+			store.dispatch({ type: 'SET_SEO', payload: data.data.seo })
+			store.dispatch({ type: 'SET_LINKS', payload: data.data.links })
+			store.dispatch({ type: 'SET_BANNERS', payload: data.data.banners })
+		}
 	}
+	
 	
 })
 

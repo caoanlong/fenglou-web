@@ -6,7 +6,7 @@ import { useState } from "react"
 import Banner from "../types/Banner"
 
 type BannerProps = {
-    banners: Array<Banner>
+    banners: Banner[]
 }
 
 function BannerCom({ banners }: BannerProps) {

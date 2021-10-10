@@ -6,7 +6,7 @@ import VodApi from '../../services/VodApi'
 import Vod from '../../types/Vod'
 import VodType from '../../types/VodType'
 import { useSelector } from 'react-redux'
-import { State } from '../../store'
+import { RootState } from '../../store'
 
 
 type SearchProps = {
@@ -45,7 +45,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 }
 
 function Search({ keyword, vodList, pageIndex, pageSize, pages }: SearchProps) {
-    const seo = useSelector((s: State) => s.seo)
+    const seo = useSelector((s: RootState) => s.config.seo)
     return (
         <main className="px-4">
             <SEO 

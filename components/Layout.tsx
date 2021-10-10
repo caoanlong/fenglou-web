@@ -1,22 +1,55 @@
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, { ReactNode, useEffect } from 'react'
 import Head from "next/head"
+import { Freshchat } from 'reactjs-freshchat'
 import HeaderBar from './HeaderBar'
 import FooterBar from './FooterBar'
 import { useDispatch, useSelector } from 'react-redux'
-import { State } from '../store'
 import { useRouter } from 'next/router'
 import { isPWA } from '../utils/tools'
+import { RootState } from '../store'
+import { getInfo } from '../store/actions/userActions'
+import LoginModal from './LoginModal'
+import BuyVipModal from './BuyVipModal'
+import Member from '../types/Member'
 
 type LayoutProps = {
     children: ReactNode
 }
 
 function Layout({children}: LayoutProps) {
-    const theme = useSelector((state: State) => state.theme)
-    const seo = useSelector((state: State) => state.seo)
     const dispatch = useDispatch()
-
     const router = useRouter()
+    
+    const member: Member = useSelector((state: RootState) => state.member)
+    const seo = useSelector((state: RootState) => state.config.seo)
+    const showLogin = useSelector((state: RootState) => state.config.showLogin)
+    const showBuyVip = useSelector((state: RootState) => state.config.showBuyVip)
+
+    const authPath = ['/mine']
+    useEffect(() => {
+        const token = localStorage.getItem('_t')
+        if (token) {
+            dispatch({ type: 'SET_TOKEN', payload: token })
+            if (router.pathname !== '/mine/[token]') {
+                dispatch(getInfo())
+            }
+        }
+        for (const item of authPath) {
+            if (!token && router.pathname.startsWith(item)) {
+                dispatch({ type: 'SET_LOGIN_MODAL', payload: true })
+                router.replace('/')
+                break
+            }
+        }
+
+        document.addEventListener('visibilitychange', () => {
+            if(document.visibilityState == 'visible') {
+                dispatch({ type: 'SET_BUY_VIP_MODAL', payload: { showBuyVip: false } })
+                if (token) dispatch(getInfo())
+            }
+        })
+
+    }, [])
 
     useEffect(() => {
         const now = new Date().getTime()
@@ -24,6 +57,7 @@ function Layout({children}: LayoutProps) {
             // 因为html, body 都进行了定位，无法滚动
             document.getElementById('__next')?.scrollTo(0, 0)
         })
+        
         const pwa = localStorage.getItem('pwa')
         if (!pwa && isPWA()) {
             localStorage.setItem('pwa', now.toString())
@@ -37,7 +71,7 @@ function Layout({children}: LayoutProps) {
         })
         document.documentElement.className = prefersDarkMode ? 'dark' : 'light'
         document.body.style.backgroundColor = prefersDarkMode ? '#000' : '#fff'
-    })
+    }, [])
     
     return (
         <div>
@@ -68,13 +102,21 @@ function Layout({children}: LayoutProps) {
             <div className="bg-white dark:bg-black min-h-screen">
                 <HeaderBar></HeaderBar>
                 <div className="pt-12 sm:pt-16">{children}</div>
+                { showLogin ? <LoginModal /> : <></>}
+                { showBuyVip ? <BuyVipModal /> : <></>}
                 <FooterBar></FooterBar>
-                {
-                    process.env.NODE_ENV === 'production'
-                    ? <div dangerouslySetInnerHTML={{__html: seo?.seoScript || ''}} />
-                    : <></>
-                }
             </div>
+            <Freshchat 
+                token={'ca09babd-a5d6-4f9e-8e56-605ccda21c96'} 
+                externalId={'' + member.memberId}
+                firstName={member.email || member.mobile || member.memberName}
+                email={member.email}
+                phone={member.mobile}
+                ic_styles={{
+                    backgroundColor: '#002d85', 
+                    color: '#fff'
+                }}
+            />
         </div>
     )
 }

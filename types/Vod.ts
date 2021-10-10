@@ -37,7 +37,9 @@ interface Vod {
     vodPlayFrom: string,
     vodPlayServer: string,
     vodPlayUrl: string,
-    vodPlot: number
+    vodPlot: number,
+    status: number,
+    permission: number
 }
 
 export default Vod

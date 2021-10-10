@@ -1,7 +1,7 @@
 import { NextSeo } from 'next-seo'
 import { OpenGraphImages } from 'next-seo/lib/types'
 import { useSelector } from 'react-redux'
-import { State } from '../store'
+import { RootState } from '../store'
 
 type SEOProps = {
     title: string,
@@ -20,7 +20,7 @@ function SEO({
     image, 
     tCardType='summary' 
 }: SEOProps) {
-    const seo = useSelector((state: State) => state.seo)
+    const seo = useSelector((state: RootState) => state.config.seo)
     const images: Array<OpenGraphImages> = [
         {
             url: '/icons/og-image.png',
