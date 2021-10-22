@@ -2,38 +2,30 @@ import React, { useState, MouseEvent, KeyboardEvent, FormEvent, useRef } from 'r
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { useDispatch, useSelector } from 'react-redux'
-import VodType from '../types/VodType'
 import { RootState } from '../store'
 import { IoClose, IoMenu, IoPerson, IoSearch } from 'react-icons/io5'
-
-const HOT_LIST = [
-    '三上悠亚',
-    '桥本有菜',
-    '明日花绮罗',
-    '吉泽明步',
-    '篠田优',
-    '佐佐木明希',
-    '古川伊织',
-    '桃乃木香奈',
-    '山岸逢花',
-    '明里紬'
-]
+import City from '../types/City'
+import Province from '../types/Province'
+import Tag from '../types/Tag'
 
 function HeaderBar() {
     const router = useRouter()
     const dispatch = useDispatch()
-    const vodTypes = useSelector((state: RootState) => state.config.typeList)
-    const token = useSelector((state: RootState) => state.member.token)
+    const hotCities: City[] = useSelector((state: RootState) => state.config.hotCities)
+    const provinces: Province[] = useSelector((state: RootState) => state.config.provinces)
+    const tags: Tag[] = useSelector((state: RootState) => state.config.tags)
+    const token = useSelector((state: RootState) => state.member?.token)
 
     const [ showNavs, setShowNavs ] = useState(false)
     const [ showMobileSearch, setShowMobileSearch ] = useState(false)
+    const [ showProvinces, setShowProvinces ] = useState(false)
     const [ showHotList, setShowHotList ] = useState(false)
     const keywordsRef = useRef<HTMLInputElement>(null)
     
-    const changePage = (e: MouseEvent<HTMLLIElement>, tId: number) => {
+    const changePage = (e: MouseEvent<HTMLDivElement>, city: City) => {
         e.stopPropagation()
         setShowNavs(false)
-        router.push(`/list/${tId}/全部?orderBy=time`)
+        router.push(`/list/${city.pId}/${city.id}`)
     }
 
     const handleSearch = () => {
@@ -55,8 +47,11 @@ function HeaderBar() {
         router.push(`/search/${keyword}`)
     }
 
-    const isActive = (typeId: number) => {
-        return (router.pathname.includes('/list') && router.query.typeId === String(typeId))
+    const isCityActive = (cityId: number) => {
+        return (router.pathname.includes('/list') && router.query.cityId === String(cityId))
+    }
+    const isProvinceActive = (provinceId: number) => {
+        return (router.pathname.includes('/list') && router.query.provinceId === String(provinceId))
     }
 
     return (
@@ -74,46 +69,85 @@ function HeaderBar() {
                 </Link>
                 
                 <ul className="flex-1 h-full clear-both hidden lg:block">
-                    <li className={`float-left h-full px-4 flex items-center ${router.asPath === '/' ? 'text-purple-500' : 'text-gray-600 hover:text-purple-500'}`}>
+                    <li className={`float-left h-full px-4 flex items-center ${router.asPath === '/' ? 'text-pink-500' : 'text-gray-600 hover:text-pink-500'}`}>
                         <Link href="/">
                             <a className="block">首页</a>
                         </Link>
                     </li>
                     {
-                        vodTypes.map((nav: VodType) => (
+                        hotCities.map((city: City) => (
                             <li 
-                                className={`float-left h-full px-4 flex items-center ${isActive(nav.typeId) ? 'text-purple-500' : 'text-gray-600 dark:text-gray-500 hover:text-purple-500'}`} 
-                                key={nav.typeId}>
-                                <Link href={`/list/${nav.typeId}/全部?orderBy=time`}>
-                                    <a>{nav.typeName}</a>
+                                className={`float-left h-full px-4 flex items-center ${isCityActive(city.id) ? 'text-pink-500' : 'text-gray-600 dark:text-gray-500 hover:text-pink-500'}`} 
+                                key={city.id}>
+                                <Link href={`/list/${city.pId}/${city.id}`}>
+                                    <a>{city.name}</a>
                                 </Link>
                             </li>
                         ))
                     }
+                    <div 
+                        onMouseEnter={() => setShowProvinces(true)}
+                        onMouseLeave={() => setShowProvinces(false)}
+                        className="float-left h-full px-4 flex items-center text-gray-600 dark:text-gray-500 hover:text-pink-500 relative cursor-pointer">
+                        更多
+                        {
+                            showProvinces ? 
+                            <div className="absolute z-10 top-14 left-0 w-96 bg-white dark:bg-gray-900 shadow-lg rounded p-4 clearfix">
+                                {
+                                    provinces.map((province: Province) => (
+                                        <div 
+                                            key={province.id} 
+                                            className={`float-left px-4 py-2 ${isProvinceActive(province.id) ? 'text-pink-500' : 'text-gray-600 dark:text-gray-500'} hover:text-pink-500 cursor-pointer`}>
+                                            <Link href={`/list/${province.id}/0`}>
+                                                <a>{province.name}</a>
+                                            </Link>
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                            : <></>
+                        }
+                    </div>
+                    
                 </ul>
                 {
                     showNavs ? 
                     <div 
                         className="w-full fixed left-0 top-12 sm:top-16 right-0 bottom-0 bg-black bg-opacity-50 backdrop-filter backdrop-blur lg:hidden" 
                         onClick={() => setShowNavs(false)}>
-                        <ul 
-                            className="w-full absolute left-0 top-0 bg-white dark:bg-black shadow-md">
-                            <li 
-                                onClick={() => router.push('/')}
-                                className={`container h-14 px-4 flex items-center ${router.asPath === '/' ? 'text-purple-500' : 'text-gray-600 dark:text-gray-500'}`}>
-                                首页
-                            </li>
+                        <div 
+                            className="w-full p-4 absolute left-0 top-0 bg-white dark:bg-black shadow-md">
                             {
-                                vodTypes.map((nav: VodType) => (
-                                    <li 
-                                        className={`container h-14 px-4 flex items-center ${isActive(nav.typeId) ? 'text-purple-500' : 'text-gray-600 dark:text-gray-500'}`} 
-                                        key={nav.typeId} 
-                                        onClick={(e: MouseEvent<HTMLLIElement>) => changePage(e, nav.typeId)}>
-                                        {nav.typeName}
-                                    </li>
-                                ))
+                                hotCities.length ?
+                                <div className="font-bold text-pink-500 text-sm">热门城市</div> : <></>
                             }
-                        </ul>
+                            <div className="clearfix">
+                                {
+                                    hotCities.map((city: City) => (
+                                        <div 
+                                            className={`float-left h-12 px-4 flex items-center ${isCityActive(city.id) ? 'text-pink-500' : 'text-gray-600 dark:text-gray-500'}`} 
+                                            key={city.id} 
+                                            onClick={(e: MouseEvent<HTMLDivElement>) => changePage(e, city)}>
+                                            {city.name}
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                            <div className="mt-2 font-bold text-pink-500 text-sm">更多地区</div>
+                            <div className="clearfix">
+                                {
+                                    provinces.map((province: Province) => (
+                                        <div 
+                                            key={province.id}
+                                            className={`float-left h-12 px-4 flex items-center ${isProvinceActive(province.id) ? 'text-pink-500' : 'text-gray-600 dark:text-gray-500'}`} >
+                                            <Link href={`/list/${province.id}/0`}>
+                                                <a>{province.name}</a>
+                                            </Link>
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        </div>
                     </div>
                     : <></>
                 }
@@ -121,7 +155,7 @@ function HeaderBar() {
                 <div 
                     className="w-64 h-full hidden sm:flex items-center relative">
                     <div 
-                        className="w-auto h-8 bg-gray-100 dark:bg-gray-900 border-gray-200 dark:border-gray-900 border rounded-3xl flex focus-within:ring-2 focus-within:border-purple-600">
+                        className="w-auto h-8 bg-gray-100 dark:bg-gray-900 border-gray-200 dark:border-gray-900 border rounded-3xl flex ring-pink-200 focus-within:ring-2 focus-within:border-pink-600">
                         <input 
                             ref={keywordsRef} 
                             className="flex-1 h-full px-3 bg-transparent outline-none dark:text-white" 
@@ -146,17 +180,16 @@ function HeaderBar() {
                             <p className="text-xs text-gray-400 pb-2">热门搜索</p>
                             <ul className="text-sm">
                                 {
-                                    HOT_LIST.map((hot: string, i: number) => (
+                                    tags.map((tag: Tag, i: number) => (
                                         <li 
                                             key={i} 
-                                            className="block py-2 text-gray-700 dark:text-gray-400 cursor-pointer" 
-                                            onClick={() => handleSelectSearch(hot)}>
+                                            className="block py-2 text-gray-700 dark:text-gray-400 cursor-pointer">
                                             <span 
                                                 className={`inline-block w-5 h-5 text-center text-xs rounded-sm mr-2 ${i === 0 ? 'bg-red-500 text-white' : i === 1 ? 'bg-yellow-500 text-white' : i === 2 ? 'bg-yellow-300 text-white' : 'bg-gray-300 text-gray-600'}`} 
                                                 style={{lineHeight: '20px'}}>
                                                 {i+1}
                                             </span>
-                                            <span>{hot}</span>
+                                            <span>{tag.name}</span>
                                         </li>
                                     ))
                                 }
@@ -170,7 +203,7 @@ function HeaderBar() {
                     <div 
                         className="w-full h-full items-center flex sm:w-64 absolute z-10 sm:hidden px-3 bg-white dark:bg-black">
                         <div 
-                            className="w-full h-8 bg-gray-100 dark:bg-gray-900 border-gray-200 dark:border-gray-900 border rounded-3xl flex focus-within:ring-2 focus-within:border-purple-600">
+                            className="w-full h-8 bg-gray-100 dark:bg-gray-900 border-gray-200 dark:border-gray-900 border rounded-3xl flex focus-within:ring-2 focus-within:border-pink-600">
                             <form 
                                 className="flex-1 h-full"
                                 action="javascript:return true">
@@ -201,21 +234,21 @@ function HeaderBar() {
                                 <p className="text-xs text-gray-400 pb-2">热门搜索</p>
                                 <ul className="text-sm">
                                     {
-                                        HOT_LIST.map((hot: string, i: number) => (
+                                        tags.map((tag: Tag, i: number) => (
                                             <li 
                                                 key={i} 
                                                 className="block py-2 text-gray-700 dark:text-gray-400" 
                                                 onClick={(e) => {
                                                     e.stopPropagation()
                                                     setShowMobileSearch(false)
-                                                    handleSelectSearch(hot)
+                                                    // handleSelectSearch(hot)
                                                 }}>
                                                 <span 
                                                     className={`inline-block w-5 h-5 text-center text-xs rounded-sm mr-2 ${i === 0 ? 'bg-red-500 text-white' : i === 1 ? 'bg-yellow-500 text-white' : i === 2 ? 'bg-yellow-300 text-white' : 'bg-gray-300 text-gray-600'}`} 
                                                     style={{lineHeight: '20px'}}>
                                                     {i+1}
                                                 </span>
-                                                <span>{hot}</span>
+                                                <span>{tag.name}</span>
                                             </li>
                                         ))
                                     }
@@ -239,7 +272,7 @@ function HeaderBar() {
                             </Link> :
                             <div 
                                 onClick={() => dispatch({ type: 'SET_LOGIN_MODAL', payload: true })}
-                                className="bg-purple-500 py-1 sm:py-2 px-4 sm:px-10 text-center text-white rounded shadow-lg cursor-pointer">
+                                className="bg-pink-500 py-1 sm:py-2 px-4 sm:px-10 text-center text-white rounded shadow-lg cursor-pointer">
                                 登录
                             </div>
                     }

@@ -1,5 +1,9 @@
 import request from '../utils/request'
 
+export type CommonInfoParams = {
+    platform: number
+}
+
 export type CommonHomeParams = {
     num: number
 }
@@ -9,9 +13,10 @@ class CommonApi {
     static delay = 1000
     static url = '/common'
 
-    static info() {
+    static info(params: CommonInfoParams) {
         return request({
-            url: this.url + '/info'
+            url: this.url + '/info',
+            params
         })
     }
     static home(params: CommonHomeParams) {

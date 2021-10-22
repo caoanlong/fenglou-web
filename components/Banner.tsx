@@ -37,7 +37,7 @@ function BannerCom({ banners }: BannerProps) {
                 banners.map((item, i) => (
                     <Link key={i} href={item.bannerLink || ''}>
                         <a className="block h-36 sm:h-48 md:h-60 lg:h-72 xl:h-80 2xl:h-96">
-                            <img className="w-full h-full object-cover" src={process.env.img_url + item.bannerUrl} alt={item.bannerName}/>
+                            <img className="w-full h-full object-cover" src={process.env.site_url + item.bannerUrl} alt={item.bannerName}/>
                         </a>
                     </Link>
                 ))

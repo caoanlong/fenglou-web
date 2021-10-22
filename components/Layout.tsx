@@ -106,17 +106,19 @@ function Layout({children}: LayoutProps) {
                 { showBuyVip ? <BuyVipModal /> : <></>}
                 <FooterBar></FooterBar>
             </div>
-            <Freshchat 
-                token={'ca09babd-a5d6-4f9e-8e56-605ccda21c96'} 
-                externalId={'' + member.memberId}
-                firstName={member.email || member.mobile || member.memberName}
-                email={member.email}
-                phone={member.mobile}
-                ic_styles={{
-                    backgroundColor: '#002d85', 
-                    color: '#fff'
-                }}
-            />
+            {
+                member ? <Freshchat 
+                    token={'ca09babd-a5d6-4f9e-8e56-605ccda21c96'} 
+                    externalId={'' + member.memberId}
+                    firstName={member.email || member.mobile || member.memberName}
+                    email={member.email}
+                    phone={member.mobile}
+                    ic_styles={{
+                        backgroundColor: '#002d85', 
+                        color: '#fff'
+                    }}
+                /> : <></>
+            }
         </div>
     )
 }

@@ -1,8 +1,12 @@
 
 import { AnyAction } from "redux";
 import Banner from "../../types/Banner";
+import City from "../../types/City";
 import FriendLink from "../../types/FriendLink";
+import Notice from "../../types/Notice";
+import Province from "../../types/Province";
 import Seo from "../../types/Seo";
+import Tag from "../../types/Tag";
 import Vip from "../../types/Vip";
 import VodType from "../../types/VodType";
 
@@ -12,6 +16,11 @@ export interface ConfigState {
     seo?: Seo,
     friendLinks: FriendLink[],
     banners: Banner[],
+    notices: Notice[],
+    provinces: Province[],
+    cities: City[],
+    hotCities: City[],
+    tags: Tag[],
     showLogin: boolean,
     showBuyVip: boolean,
     currentBuyVip?: Vip
@@ -23,6 +32,11 @@ const initState: ConfigState = {
     seo: undefined,
     friendLinks: [],
     banners: [],
+    notices: [],
+    provinces: [],
+    cities: [],
+    hotCities: [],
+    tags: [],
     showLogin: false,
     showBuyVip: false,
     currentBuyVip: undefined
@@ -40,6 +54,16 @@ const reducer = (state: ConfigState = initState, action: AnyAction) => {
             return { ...state, friendLinks: action.payload }
         case 'SET_BANNERS':
             return { ...state, banners: action.payload }
+        case 'SET_NOTICES':
+            return { ...state, notices: action.payload }
+        case 'SET_PROVINCES':
+            return { ...state, provinces: action.payload }
+        case 'SET_CITIES':
+            return { ...state, cities: action.payload }
+        case 'SET_HOTCITIES':
+            return { ...state, hotCities: action.payload }
+        case 'SET_TAGS':
+            return { ...state, tags: action.payload }
         case 'SET_LOGIN_MODAL':
             return { ...state, showLogin: action.payload }
         case 'SET_BUY_VIP_MODAL':
