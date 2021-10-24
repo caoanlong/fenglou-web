@@ -72,6 +72,7 @@ function Detail({ post, likeList }: DetailProps) {
                     </div>
                     <h1 className="text-lg sm:text-2xl my-4 dark:text-gray-400">{post.title}</h1>
                     <div 
+                        className="text-black dark:text-gray-200"
                         dangerouslySetInnerHTML={{
                             __html: post.content
                         }} 
