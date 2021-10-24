@@ -1,7 +1,7 @@
 {
-    "name": "巨硬AV",
-    "short_name": "巨硬AV",
-    "description": "搞笑的免费在线短视频预告片分享,最新免费成人影片",
+    "name": "上林仙馆",
+    "short_name": "上林仙馆",
+    "description": "丝袜,白富美,美腿,美女,spa,少女,会所,养生,绿茶",
     "icons": [
         {
             "src": "/icons/android-chrome-192x192.png",
@@ -38,5 +38,5 @@
     "start_url": "/",
     "display": "standalone",
     "orientation": "portrait",
-    "prompt_message": "在主屏幕添加图标，以便快速访问 巨硬AV"
+    "prompt_message": "在主屏幕添加图标，以便快速访问 上林仙馆"
 }
