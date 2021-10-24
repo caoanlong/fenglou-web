@@ -30,7 +30,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const cityList: City[] = resCities.data.data
     const params: PostFindListParams = {
         pageIndex: 1,
-        pageSize: 24,
+        pageSize: 48,
         cityId: cityId === 0 ? cityList[0].id : cityId
     }
 

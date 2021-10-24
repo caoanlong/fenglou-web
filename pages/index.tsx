@@ -20,7 +20,7 @@ type HomeProps = {
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const params: PostFindListParams = {
         pageIndex: 1,
-        pageSize: 24
+        pageSize: 48
     }
 
     const resPosts = await PostApi.findList(params)

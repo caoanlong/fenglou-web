@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const tag: number = query.tag ? Number(query.tag) : 0
     const params: PostFindListParams = {
         pageIndex: 1,
-        pageSize: 24
+        pageSize: 48
     }
     if (tag) {
         params.tagId = tag
