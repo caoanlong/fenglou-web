@@ -11,7 +11,7 @@ class Mydocument extends Document {
         return (
             <Html lang={process.env.lang}>
                 <Head>
-                    
+                  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4V69ZZHFM6"></script>
                     <script
                         dangerouslySetInnerHTML={{
                         __html: `
@@ -34,6 +34,11 @@ class Mydocument extends Document {
                               document.addEventListener('gesturestart', function (event) {
                                 event.preventDefault()
                               })
+
+                              window.dataLayer = window.dataLayer || [];
+                              function gtag(){dataLayer.push(arguments);}
+                              gtag('js', new Date());
+                              gtag('config', 'G-4V69ZZHFM6');
                         `,
                         }}
                     />
