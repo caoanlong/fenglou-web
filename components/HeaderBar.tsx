@@ -14,6 +14,7 @@ function HeaderBar() {
     const hotCities: City[] = useSelector((state: RootState) => state.config.hotCities)
     const provinces: Province[] = useSelector((state: RootState) => state.config.provinces)
     const tags: Tag[] = useSelector((state: RootState) => state.config.tags)
+    const theme: string = useSelector((state: RootState) => state.config.theme)
     const token = useSelector((state: RootState) => state.member?.token)
 
     const [ showNavs, setShowNavs ] = useState(false)
@@ -42,9 +43,9 @@ function HeaderBar() {
             handleSearch()
         }
     }
-    const handleSelectSearch = (keyword: string) => {
+    const handleSelectSearch = (tag: Tag) => {
         setShowHotList(false)
-        router.push(`/search/${keyword}`)
+        router.push(`/search/${tag.name}?tag=${tag.id}`)
     }
 
     const isCityActive = (cityId: number) => {
@@ -64,7 +65,11 @@ function HeaderBar() {
                 </div>
                 <Link href={'/'}>
                     <a className="h-full py-2" style={{width: '160px'}}>
-                        <img className="h-full" src="/images/logo.svg" alt="LOGO" />
+                        <img 
+                            className="h-full" 
+                            src={`/images/logo.svg`} 
+                            alt="LOGO" 
+                        />
                     </a>
                 </Link>
                 
@@ -183,6 +188,7 @@ function HeaderBar() {
                                     tags.map((tag: Tag, i: number) => (
                                         <li 
                                             key={i} 
+                                            onClick={() => handleSelectSearch(tag)}
                                             className="block py-2 text-gray-700 dark:text-gray-400 cursor-pointer">
                                             <span 
                                                 className={`inline-block w-5 h-5 text-center text-xs rounded-sm mr-2 ${i === 0 ? 'bg-red-500 text-white' : i === 1 ? 'bg-yellow-500 text-white' : i === 2 ? 'bg-yellow-300 text-white' : 'bg-gray-300 text-gray-600'}`} 
@@ -241,7 +247,7 @@ function HeaderBar() {
                                                 onClick={(e) => {
                                                     e.stopPropagation()
                                                     setShowMobileSearch(false)
-                                                    // handleSelectSearch(hot)
+                                                    handleSelectSearch(tag)
                                                 }}>
                                                 <span 
                                                     className={`inline-block w-5 h-5 text-center text-xs rounded-sm mr-2 ${i === 0 ? 'bg-red-500 text-white' : i === 1 ? 'bg-yellow-500 text-white' : i === 2 ? 'bg-yellow-300 text-white' : 'bg-gray-300 text-gray-600'}`} 
@@ -263,7 +269,7 @@ function HeaderBar() {
                         className="text-xl text-gray-600 mx-4 sm:hidden" 
                         onClick={() => setShowMobileSearch(true)} 
                     />
-                    {
+                    {/* {
                         token ? 
                             <Link href={'/mine/' + token}>
                                 <a className="text-gray-600 text-xl">
@@ -275,7 +281,7 @@ function HeaderBar() {
                                 className="bg-pink-500 py-1 sm:py-2 px-4 sm:px-10 text-center text-white rounded shadow-lg cursor-pointer">
                                 登录
                             </div>
-                    }
+                    } */}
                 </div>
             </div>
         </div>

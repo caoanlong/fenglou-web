@@ -1,9 +1,9 @@
 import request from '../utils/request'
 
 export type PostFindYouLikeParams = {
-    cityId: number,
-    provinceId: string,
-    num: number
+    cityId?: number,
+    tagIds?: string,
+    num?: number
 }
 
 export type PostFindByIdParams = {
@@ -14,13 +14,8 @@ export type PostFindListParams = {
     pageIndex: number,
     pageSize: number,
     cityId?: number, 
+    tagId?: number, 
     title?: string
-}
-
-export type PostSearchParams = {
-    pageIndex: number,
-    pageSize: number,
-    keyword: string
 }
 
 class PostApi {
@@ -51,13 +46,6 @@ class PostApi {
     static findList(params: PostFindListParams) {
         return request({
             url: this.url + '/findList',
-            params
-        })
-    }
-
-    static search(params: PostSearchParams) {
-        return request({
-            url: this.url + '/search',
             params
         })
     }

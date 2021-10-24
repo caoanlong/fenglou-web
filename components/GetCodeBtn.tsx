@@ -33,7 +33,7 @@ function GetCodeBtn({ account, isAuto }: GetCodeBtnProps) {
     
     const handleGetCode = () => {
         Toast.loading('加载中...')
-        MemberApi.getCode({ account, platform: 1 }).then(res => {
+        MemberApi.getCode({ account, platform: 2 }).then(res => {
             Toast.success('发送成功')
             countDown()
         }).catch(() => {
@@ -49,7 +49,7 @@ function GetCodeBtn({ account, isAuto }: GetCodeBtnProps) {
     }, [])
     return (
         <div 
-            className={`${canClick ? 'text-purple-500' : 'text-gray-400'} cursor-pointer pl-2`}
+            className={`${canClick ? 'text-pink-500' : 'text-gray-400'} cursor-pointer pl-2`}
             onClick={handleGetCode}>
             {smsTitle}
         </div>

@@ -12,7 +12,7 @@ function ButtomCom({ text, type='button', disabled=false, onClick }: ButtomComPr
         if (type === 'button') {
             return <button 
                 type="button" 
-                className={`w-full h-12 rounded-lg bg-purple-500 text-white ${disabled ? 'bg-opacity-50' : ''}`} 
+                className={`w-full h-12 rounded-lg bg-pink-500 text-white ${disabled ? 'bg-opacity-50' : ''}`} 
                 onClick={onClick} 
                 disabled={disabled}>
                 {text}
@@ -21,14 +21,14 @@ function ButtomCom({ text, type='button', disabled=false, onClick }: ButtomComPr
         if (type === 'submit') {
             return <button 
                 type="submit" 
-                className={`w-full h-12 rounded-lg bg-purple-500 text-white ${disabled ? 'bg-opacity-50' : ''}`}
+                className={`w-full h-12 rounded-lg bg-pink-500 text-white ${disabled ? 'bg-opacity-50' : ''}`}
                 disabled={disabled}>
                 {text}
             </button>
         }
         return <button 
             type="button" 
-            className={`w-full h-12 rounded-lg bg-purple-500 text-white ${disabled ? 'bg-opacity-50' : ''}`} 
+            className={`w-full h-12 rounded-lg bg-pink-500 text-white ${disabled ? 'bg-opacity-50' : ''}`} 
             onClick={onClick} 
             disabled={disabled}>
             {text}

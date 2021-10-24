@@ -106,7 +106,7 @@ function Layout({children}: LayoutProps) {
                 { showBuyVip ? <BuyVipModal /> : <></>}
                 <FooterBar></FooterBar>
             </div>
-            {
+            {/* {
                 member ? <Freshchat 
                     token={'ca09babd-a5d6-4f9e-8e56-605ccda21c96'} 
                     externalId={'' + member.memberId}
@@ -114,11 +114,11 @@ function Layout({children}: LayoutProps) {
                     email={member.email}
                     phone={member.mobile}
                     ic_styles={{
-                        backgroundColor: '#002d85', 
+                        backgroundColor: '#ec4899', 
                         color: '#fff'
                     }}
                 /> : <></>
-            }
+            } */}
         </div>
     )
 }
