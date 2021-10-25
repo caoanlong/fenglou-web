@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import PostApi, { PostFindListParams } from '../../services/PostApi'
 import Post from '../../types/Post'
-import { useEffect, useState } from 'react'
 import Tag from '../../types/Tag'
+import PaginationBar from '../../components/PaginationBar'
 
 
 type SearchProps = {
@@ -17,11 +17,13 @@ type SearchProps = {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const query = context.query
+    const pageIndex: number = Number(query.pageIndex ?? 1)
+    const pageSize: number = Number(query.pageSize ?? 48)
     const keyword: string = query.keyword as string
     const tag: number = query.tag ? Number(query.tag) : 0
     const params: PostFindListParams = {
-        pageIndex: 1,
-        pageSize: 48
+        pageIndex,
+        pageSize
     }
     if (tag) {
         params.tagId = tag
@@ -45,31 +47,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 function Search({ postList, pages, params }: SearchProps) {
     const seo = useSelector((s: RootState) => s.config.seo)
     const tags: Tag[] = useSelector((state: RootState) => state.config.tags)
-    const TAG_MAP: {[key:number]:string} = {}
+    const TAG_MAP: any = {}
     for (const tag of tags) {
         TAG_MAP[tag.id] = tag.name
     }
-    const [ list, setList ] = useState<Post[]>(postList)
-    const [ totalPages, setTotalPages ] = useState<number>(pages)
     const title = params.tagId ? (TAG_MAP[params.tagId] || params.title) : params.title
-
-    const getList = () => {
-        params.pageIndex++
-        PostApi.findList(params).then(res => {
-            if (res.data.data) {
-                if (res.data.data.list && res.data.data.list.length) {
-                    setList([...list, ...res.data.data.list])
-                }
-                if (res.data.data.pages) {
-                    setTotalPages(res.data.data.pages)
-                }
-            }
-        })
-    }
-
-    useEffect(() => {
-        setList(postList)
-    }, [postList])
+    const baseUrl = `/search/${title + (params.tagId ? '?tag=' + params.tagId : '')}`
     
     return (
         <main className="px-4">
@@ -87,21 +70,20 @@ function Search({ postList, pages, params }: SearchProps) {
                     </div>
                     <div>
                         {
-                            list.map((post: Post, i: number) => (
+                            postList.map((post: Post, i: number) => (
                                 <SearchItem key={post.id} post={post} index={i}></SearchItem>
                             ))
                         }
                     </div>
                 </div>
                 {
-                    params.pageIndex < totalPages ?
-                    <div className="flex justify-center items-center pt-10 text-gray-700 text-sm">
-                        <div 
-                            onClick={() => getList()}
-                            className="bg-white dark:bg-gray-900 px-10 py-2 rounded shadow-md mr-2 cursor-pointer">
-                            点击加载更多
-                        </div>
-                    </div> : <></>
+                    postList.length > 0
+                    ? <PaginationBar 
+                        pageIndex={params.pageIndex} 
+                        pageSize={params.pageSize} 
+                        pages={pages} 
+                        baseUrl={baseUrl}/>
+                    : <></>
                 }
             </div>
         </main>

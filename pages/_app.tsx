@@ -1,5 +1,4 @@
 import '../styles/globals.css'
-import React from 'react'
 import type { AppContext, AppProps } from 'next/app'
 import { wrapper } from '../store'
 import Layout from '../components/Layout'

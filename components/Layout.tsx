@@ -52,11 +52,44 @@ function Layout({children}: LayoutProps) {
     }, [])
 
     useEffect(() => {
+        const __next = document.getElementById('__next') as HTMLDivElement
+        function initRouterListeners() {
+            const routes: { pathname: string, scrollY: number }[] = []
+            router.events.on('routeChangeStart', () => {
+                pushCurrentRouteInfo()
+            })
+            router.events.on('routeChangeComplete', () => {
+                window.requestAnimationFrame(() => __next.scrollTo(0, 1))
+                fixScrollPosition()
+            })
+            function pushCurrentRouteInfo() {
+                routes.push({ pathname: router.pathname, scrollY: __next.scrollTop})
+            }
+            function isBack() {
+                return routes.length >= 2 && router.pathname === routes[routes.length - 2].pathname
+            }
+            function fixScrollPosition() {
+                let scrollY = 0
+                // console.log(window.performance.navigation)
+                if (isBack()) {
+                    routes.pop()
+                    const targetRoute = routes.pop()
+                    scrollY = targetRoute?.scrollY || 0
+                }
+                window.requestAnimationFrame(() => __next.scrollTo(0, scrollY))
+            }
+        }
+        initRouterListeners()
+        // router.events.on('routeChangeStart', (url, url2) => {
+        //     console.log(url, url2)
+        // })
         const now = new Date().getTime()
-        router.events.on('routeChangeComplete', () => {
-            // 因为html, body 都进行了定位，无法滚动
-            document.getElementById('__next')?.scrollTo(0, 0)
-        })
+        // const __next = document.getElementById('__next') as HTMLDivElement
+        // router.events.on('routeChangeComplete', () => {
+        //     // 因为html, body 都进行了定位，无法滚动
+        //     const st = sessionStorage.getItem('st')
+        //     __next.scrollTo(0, st ? +st : 0)
+        // })
         
         const pwa = localStorage.getItem('pwa')
         if (!pwa && isPWA()) {

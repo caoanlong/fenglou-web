@@ -13,10 +13,11 @@ function PaginationBar({
     pages, 
     baseUrl
 }: PaginationProps) {
-    const first = `${baseUrl}?pageIndex=1&pageSize=${pageSize}`
-    const last = `${baseUrl}?pageIndex=${pages}&pageSize=${pageSize}`
-    const prev = `${baseUrl}?pageIndex=${pageIndex-1}&pageSize=${pageSize}`
-    const next = `${baseUrl}?pageIndex=${pageIndex+1}&pageSize=${pageSize}`
+    const url = baseUrl + (baseUrl.includes('?') ? '&' : '?')
+    const first = `${url}pageIndex=1&pageSize=${pageSize}`
+    const last = `${url}pageIndex=${pages}&pageSize=${pageSize}`
+    const prev = `${url}pageIndex=${pageIndex-1}&pageSize=${pageSize}`
+    const next = `${url}pageIndex=${pageIndex+1}&pageSize=${pageSize}`
     let list = []
     if (pages <= 5) {
         for (let i = 1; i < pages + 1; i++) {
@@ -54,7 +55,7 @@ function PaginationBar({
             {
                 list.map((item: number) => (
                     <Link 
-                        href={`${baseUrl}?pageIndex=${item}&pageSize=${pageSize}`} 
+                        href={`${url}pageIndex=${item}&pageSize=${pageSize}`} 
                         key={item}>
                         <a className={`hidden md:block px-4 py-2 rounded shadow-md mr-2 ${pageIndex === item ? 'bg-pink-500 text-white' : 'bg-white dark:bg-gray-900'}`}>
                             {item}

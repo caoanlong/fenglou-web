@@ -3,7 +3,6 @@ import { useSelector } from "react-redux"
 import Link from "next/link"
 import SEO from '../../components/SEO'
 import { RootState } from "../../store"
-import React from "react"
 import { IoChevronForwardOutline } from "react-icons/io5"
 import PostApi from "../../services/PostApi"
 import Post from "../../types/Post"
@@ -38,7 +37,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 function Detail({ post, likeList }: DetailProps) {
     const seo = useSelector((state: RootState) => state.config.seo)
-
+    
     return (
         <main>
             <SEO 
