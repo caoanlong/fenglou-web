@@ -41,6 +41,9 @@ build/Release
 node_modules/
 jspm_packages/
 
+public/sw.*
+public/workbox-*
+
 # TypeScript v1 declaration files
 typings/
 
