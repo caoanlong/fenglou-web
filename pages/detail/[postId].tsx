@@ -1,5 +1,6 @@
 import { GetServerSideProps } from "next"
 import { useSelector } from "react-redux"
+import React from "react"
 import Link from "next/link"
 import SEO from '../../components/SEO'
 import { RootState } from "../../store"

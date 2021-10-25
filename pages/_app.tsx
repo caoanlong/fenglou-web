@@ -1,5 +1,6 @@
 import '../styles/globals.css'
 import type { AppContext, AppProps } from 'next/app'
+import React from 'react'
 import { wrapper } from '../store'
 import Layout from '../components/Layout'
 import CommonApi from '../services/CommonApi'

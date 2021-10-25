@@ -1,4 +1,5 @@
 import { GetServerSideProps } from 'next'
+import React from 'react'
 import BannerCom from '../components/Banner'
 import SEO from '../components/SEO'
 import { useSelector } from 'react-redux'
