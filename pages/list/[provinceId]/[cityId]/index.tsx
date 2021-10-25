@@ -21,8 +21,8 @@ type ListProps = {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const query = context.query
-    const pageIndex: number = Number(query.pageIndex ?? 1)
-    const pageSize: number = Number(query.pageSize ?? 48)
+    const pageIndex: number = Number(query.pageIndex || 1)
+    const pageSize: number = Number(query.pageSize || 48)
     const provinceId: number = Number(query.provinceId)
     const cityId: number = Number(query.cityId)
 
