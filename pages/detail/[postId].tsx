@@ -77,6 +77,19 @@ function Detail({ post, likeList }: DetailProps) {
                             __html: post.content
                         }} 
                     />
+                    {
+                        post.contactInfo ?
+                            <div className="py-4">
+                                <h2 className="font-bold text-pink-500">联系方式</h2>
+                                <div 
+                                    className="text-black dark:text-gray-200"
+                                    dangerouslySetInnerHTML={{
+                                        __html: post.contactInfo
+                                }} 
+                            /> 
+                        </div>: <></>
+                    }
+                    
                 </div>
                 <div className="bg-white dark:bg-black shadow p-3 my-4 sm:rounded-lg">
                     <h1 className="text-lg py-2 dark:text-gray-400">猜你喜欢</h1>

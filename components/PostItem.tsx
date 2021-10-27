@@ -19,7 +19,7 @@ function PostItem({ post, isInShadow }: PostItemProps) {
                         className={`con overflow-hidden ${isInShadow ? 'shadow-md rounded-lg' : ''}`}>
                         <LazyLoadImage
                             className={`h-full w-full object-cover ${isInShadow ? '' : 'rounded-t-lg'}`}
-                            src={post.image.startsWith('http') ? post.image : process.env.site_url + '/' + post.image} 
+                            src={post.image.startsWith('http') ? post.image : process.env.site_url + post.image} 
                             alt={post.title}>
                         </LazyLoadImage>
                     </div>

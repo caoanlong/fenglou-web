@@ -15,7 +15,7 @@ function SearchItem({ post, index }: SearchItemProps) {
                 <div className="w-32 sm:w-60 rounded-lg relative overflow-hidden">
                     <LazyLoadImage
                         className="h-full w-full object-cover"
-                        src={post.image.startsWith('http') ? post.image : process.env.site_url + '/' + post.image} 
+                        src={post.image.startsWith('http') ? post.image : process.env.site_url + post.image} 
                         alt={post.title}>
                     </LazyLoadImage>
                 </div>
