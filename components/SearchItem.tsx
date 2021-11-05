@@ -9,6 +9,15 @@ type SearchItemProps = {
 }
 
 function SearchItem({ post, index }: SearchItemProps) {
+    const tags: Tag[] = []
+    if (post.tagNames) {
+        const list = post.tagNames.split(',')
+        list.forEach((item: string) => {
+            const [ tagId, tagName ] = item.split(':')
+            tags.push({ id: +tagId, name: tagName })
+        })
+        post.tagList = tags
+    }
     return (
         <Link href={`/detail/${post.id}`}>
             <a className={`flex h-36 sm:h-52 p-4 ${index !== 0 ? 'border-t border-gray-200 dark:border-gray-800' : ''}`}>

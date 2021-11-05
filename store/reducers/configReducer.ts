@@ -7,7 +7,7 @@ import Notice from "../../types/Notice";
 import Province from "../../types/Province";
 import Seo from "../../types/Seo";
 import Tag from "../../types/Tag";
-import Vip from "../../types/Vip";
+import Money from "../../types/Money";
 import VodType from "../../types/VodType";
 
 export interface ConfigState {
@@ -22,8 +22,8 @@ export interface ConfigState {
     hotCities: City[],
     tags: Tag[],
     showLogin: boolean,
-    showBuyVip: boolean,
-    currentBuyVip?: Vip
+    showBuyMoney: boolean,
+    currentBuyMoney?: Money
 }
 
 const initState: ConfigState = {
@@ -38,8 +38,8 @@ const initState: ConfigState = {
     hotCities: [],
     tags: [],
     showLogin: false,
-    showBuyVip: false,
-    currentBuyVip: undefined
+    showBuyMoney: false,
+    currentBuyMoney: undefined
 }
 
 const reducer = (state: ConfigState = initState, action: AnyAction) => {
@@ -66,12 +66,12 @@ const reducer = (state: ConfigState = initState, action: AnyAction) => {
             return { ...state, tags: action.payload }
         case 'SET_LOGIN_MODAL':
             return { ...state, showLogin: action.payload }
-        case 'SET_BUY_VIP_MODAL':
-            const { showBuyVip, vip } = action.payload
+        case 'SET_BUY_MONEY_MODAL':
+            const { showBuyMoney, money } = action.payload
             return { 
                 ...state, 
-                showBuyVip,
-                currentBuyVip: showBuyVip ? vip : undefined
+                showBuyMoney,
+                currentBuyMoney: showBuyMoney ? money : undefined
             }
         default:
             return state

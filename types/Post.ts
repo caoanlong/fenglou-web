@@ -11,6 +11,7 @@ interface Post {
     provinceId: number,
     cityName: string,
     provinceName: string,
+    tagNames: string,
     tags: number[],
     tagList: Tag[]
     createTime: Date,

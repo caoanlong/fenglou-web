@@ -43,9 +43,22 @@ class PostApi {
         })
     }
 
+    static findDetail(params: PostFindByIdParams) {
+        return request({
+            url: this.url + '/findDetail',
+            params
+        })
+    }
+
     static findList(params: PostFindListParams) {
         return request({
             url: this.url + '/findList',
+            params
+        })
+    }
+    static getContactInfo(params: PostFindByIdParams) {
+        return request({
+            url: this.url + '/getContactInfo',
             params
         })
     }

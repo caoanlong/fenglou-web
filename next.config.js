@@ -14,6 +14,10 @@ const config = {
     async redirects() {
         return [
             {
+                source: '/403',
+                destination: '/',
+                permanent: true,
+            },{
                 source: '/404',
                 destination: '/',
                 permanent: true,

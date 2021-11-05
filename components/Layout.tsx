@@ -9,7 +9,7 @@ import { isPWA } from '../utils/tools'
 import { RootState } from '../store'
 import { getInfo } from '../store/actions/userActions'
 import LoginModal from './LoginModal'
-import BuyVipModal from './BuyVipModal'
+import BuyMoneyModal from './BuyMoneyModal'
 import Member from '../types/Member'
 
 type LayoutProps = {
@@ -23,7 +23,7 @@ function Layout({children}: LayoutProps) {
     const member: Member = useSelector((state: RootState) => state.member)
     const seo = useSelector((state: RootState) => state.config.seo)
     const showLogin = useSelector((state: RootState) => state.config.showLogin)
-    const showBuyVip = useSelector((state: RootState) => state.config.showBuyVip)
+    const showBuyMoney = useSelector((state: RootState) => state.config.showBuyMoney)
 
     const authPath = ['/mine']
     useEffect(() => {
@@ -44,7 +44,7 @@ function Layout({children}: LayoutProps) {
 
         document.addEventListener('visibilitychange', () => {
             if(document.visibilityState == 'visible') {
-                dispatch({ type: 'SET_BUY_VIP_MODAL', payload: { showBuyVip: false } })
+                dispatch({ type: 'SET_BUY_VIP_MODAL', payload: { showBuyMoney: false } })
                 if (token) dispatch(getInfo())
             }
         })
@@ -136,7 +136,7 @@ function Layout({children}: LayoutProps) {
                 <HeaderBar></HeaderBar>
                 <div className="pt-12 sm:pt-16">{children}</div>
                 { showLogin ? <LoginModal /> : <></>}
-                { showBuyVip ? <BuyVipModal /> : <></>}
+                { showBuyMoney ? <BuyMoneyModal /> : <></>}
                 <FooterBar></FooterBar>
             </div>
             {/* {

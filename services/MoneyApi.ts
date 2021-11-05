@@ -1,19 +1,13 @@
 import request from '../utils/request'
 
-class VipApi {
+class MoneyApi {
     static isClick = true
     static delay = 1000
-    static url = '/vip'
+    static url = '/money'
 
     static findAll() {
         return request({
             url: this.url + '/findAll'
-        })
-    }
-
-    static findPayVips() {
-        return request({
-            url: this.url + '/findPayVips'
         })
     }
 
@@ -24,4 +18,4 @@ class VipApi {
     }
 }
 
-export default VipApi
+export default MoneyApi

@@ -6,23 +6,22 @@ import Member from "../../types/Member"
 import { getInfo, logout, updateMember } from "../../store/actions/userActions"
 import { useRouter } from "next/router"
 import ClipboardJS from 'clipboard'
-import dayjs from "dayjs"
 import SEO from "../../components/SEO"
 import Avatar from "../../components/Avatar"
 import { GetServerSideProps } from "next"
 import MemberApi from "../../services/MemberApi"
-import Vip from "../../types/Vip"
+import Money from "../../types/Money"
 import Segement, { Seg } from "../../components/Segement"
-import Vips from "../../components/Vips"
+import Moneys from "../../components/Moneys"
 import MyOrders from "../../components/MyOrders"
-import VipApi from "../../services/VipApi"
+import MoneyApi from "../../services/MoneyApi"
 import Order from "../../types/Order"
 import RegMembers from "../../components/RegMembers"
 import { IoDuplicateOutline, IoShareOutline } from "react-icons/io5"
 import Seo from "../../types/Seo"
 
 const tabs: Seg[] = [
-    { id: 1, path: '', name: '购买VIP' },
+    { id: 1, path: '', name: '充值' },
     { id: 2, path: '', name: '账单记录' },
     { id: 3, path: '', name: '注册人数' },
     { id: 4, path: '', name: '付费人数' }
@@ -36,21 +35,10 @@ type MineProps = {
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const query = context.query
     const token = query.token as string
-    let tabList: Seg[] = []
     const res = await MemberApi.tokenInfo(token)
-    const member = res.data.data
-    const vips = member.vips as Vip[]
-    let t = 0
-    for (const vip of vips) {
-        vip.endTimeTS = dayjs(dayjs(vip.startTime).valueOf() + vip.validDays * 86400000).valueOf()
-        if (vip.endTimeTS > t) {
-            t = vip.endTimeTS
-        }
-    }
-    member.vipEndTime = t
     return {
         props: {
-            member,
+            member: res.data.data,
             tabList: tabs
         }
     }
@@ -64,7 +52,7 @@ function Mine({ member, tabList }: MineProps) {
     const mem: Member = useSelector((state: RootState) => state.member)
 
     const [ active, setActive ] = useState<Seg>(tabList[0])
-    const [ vipList, setVipList ] = useState<Vip[]>([])
+    const [ moneyList, setMoneyList ] = useState<Money[]>([])
     const [ orderList, setOrderList ] = useState<Order[]>([])
     const [ regNumList, setRegNumList ] = useState<Member[]>([])
     const [ regPayNumList, setRegPayNumList ] = useState<Member[]>([])
@@ -78,7 +66,7 @@ function Mine({ member, tabList }: MineProps) {
     }
 
     const Record = () => {
-        if (active.id === 1) return <Vips vipList={vipList}/>
+        if (active.id === 1) return <Moneys list={moneyList}/>
         if (active.id === 2) return <MyOrders 
             orderList={orderList} 
             hasMore={pageIndex <= totalOrderPage} 
@@ -105,9 +93,9 @@ function Mine({ member, tabList }: MineProps) {
     
     const getVipList = () => {
         Toast.loading('加载中...')
-        VipApi.findPayVips().then(res => {
+        MoneyApi.findAll().then(res => {
             Toast.hide()
-            setVipList(res.data.data)
+            setMoneyList(res.data.data)
         }).catch(() => {
             Toast.hide()
         })
@@ -148,8 +136,12 @@ function Mine({ member, tabList }: MineProps) {
     }
 
     useEffect(() => {
-        dispatch({ type: 'SET_MEMBER', payload: member })
+        setOrderList([])
         getList(active.id)
+    }, [active])
+
+    useEffect(() => {
+        dispatch({ type: 'SET_MEMBER', payload: member })
         setHasShare(Boolean(window.navigator.share))
     }, [])
 
@@ -200,15 +192,12 @@ function Mine({ member, tabList }: MineProps) {
                                 </div>
                             </div>
                             <div className="flex">
-                                <div className="w-12 text-black dark:text-gray-100">
-                                    { mem.isAgent ? '余额：' : 'VIP：' }
-                                </div>
+                                <div className="w-12 text-black dark:text-gray-100">余额：</div>
                                 <div className="flex-1 text-gray-600 dark:text-gray-400">
-                                    {
-                                        mem.isAgent ? (mem.balance + '元') : (mem.vipEndTime ? (dayjs(mem.vipEndTime).format('YYYY-MM-DD HH:mm:ss') + ' 到期') : '无')
-                                    }
+                                    { mem.balance + '元' }
                                 </div>
                             </div>
+                            
                         </div>
                         <div className="hidden sm:block w-28">
                             <div 
@@ -264,7 +253,6 @@ function Mine({ member, tabList }: MineProps) {
                         active={active} 
                         onChange={(item: Seg) => {
                             setActive(item)
-                            getList(item.id)
                         }} 
                     />
                     <div className="mt-3">

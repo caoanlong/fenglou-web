@@ -9,6 +9,15 @@ type PostItemProps = {
 }
 
 function PostItem({ post, isInShadow }: PostItemProps) {
+    const tags: Tag[] = []
+    if (post.tagNames) {
+        const list = post.tagNames.split(',')
+        list.forEach((item: string) => {
+            const [ tagId, tagName ] = item.split(':')
+            tags.push({ id: +tagId, name: tagName })
+        })
+        post.tagList = tags
+    }
     return (
         <Link href={`/detail/${post.id}`}>
             <a 

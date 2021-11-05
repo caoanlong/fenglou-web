@@ -19,9 +19,13 @@ service.interceptors.request.use((config: AxiosRequestConfig) => {
 
 service.interceptors.response.use((res: AxiosResponse) => {
     if (res.data.code !== 200) {
-        process.browser && Toast.fail(res.data.message)
+        if (process.browser && res.data.code !== 3000) {
+            Toast.fail(res.data.message)
+        }
         if (res.data.code === 403) {
-            process.browser && localStorage.removeItem('_t')
+            if (process.browser) {
+                localStorage.removeItem('_t')
+            }
         } 
         return Promise.reject(res)
     }

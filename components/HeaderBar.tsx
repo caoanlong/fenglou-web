@@ -269,7 +269,7 @@ function HeaderBar() {
                         className="text-xl text-gray-600 mx-4 sm:hidden" 
                         onClick={() => setShowMobileSearch(true)} 
                     />
-                    {/* {
+                    {
                         token ? 
                             <Link href={'/mine/' + token}>
                                 <a className="text-gray-600 text-xl">
@@ -281,7 +281,7 @@ function HeaderBar() {
                                 className="bg-pink-500 py-1 sm:py-2 px-4 sm:px-10 text-center text-white rounded shadow-lg cursor-pointer">
                                 登录
                             </div>
-                    } */}
+                    }
                 </div>
             </div>
         </div>

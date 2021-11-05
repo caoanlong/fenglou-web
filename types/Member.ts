@@ -1,4 +1,4 @@
-import Vip from "./Vip";
+import Vip from "./Money";
 
 interface Member {
     memberId: number,
