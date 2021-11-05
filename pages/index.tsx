@@ -6,11 +6,11 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../store'
 import Banner from '../types/Banner'
 import Seo from '../types/Seo'
-// import Notice from '../types/Notice'
 import PostApi, { PostFindListParams } from '../services/PostApi'
 import Post from '../types/Post'
 import PostItem from '../components/PostItem'
 import PaginationBar from '../components/PaginationBar'
+import MarqueeX from '../components/MarqueeX'
 
 type HomeProps = {
     params: PostFindListParams,
@@ -46,7 +46,6 @@ function Home({
 }: HomeProps) {
 	const seo: Seo = useSelector((state: RootState) => state.config.seo)
 	const banners: Banner[] = useSelector((state: RootState) => state.config.banners)
-	// const notices: Notice[] = useSelector((state: RootState) => state.config.notices)
     
 	return (
 		<main>
@@ -56,6 +55,7 @@ function Home({
 				canonical={process.env.site_url} 
 			/>
 			<BannerCom banners={banners}></BannerCom>
+            <MarqueeX />
 			<div className="container p-4">
 				{
                     postList.length > 0

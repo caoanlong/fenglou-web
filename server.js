@@ -9,8 +9,8 @@ const handle = app.getRequestHandler()
 
 const devProxy = {
     '/app': {
-        target: 'http://localhost:8100/', 
-        // target: 'https://fenglou11.com/', 
+        // target: 'http://localhost:8100/', 
+        target: 'https://fenglou11.com/', 
         pathRewrite: {
             '^/app': '/app'
         },
