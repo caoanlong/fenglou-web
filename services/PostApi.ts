@@ -62,6 +62,12 @@ class PostApi {
             params
         })
     }
+    static isBought(params: PostFindByIdParams) {
+        return request({
+            url: this.url + '/isBought',
+            params
+        })
+    }
 }
 
 export default PostApi

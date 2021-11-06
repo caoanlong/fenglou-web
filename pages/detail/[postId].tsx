@@ -54,6 +54,7 @@ function Detail({ post, likeList }: DetailProps) {
     const balance: number = useSelector((state: RootState) => state.member?.balance)
     const [ contactInfo, setContactInfo ] = useState<string>('')
     const [ token, setToken ] = useState<string>(t)
+    const [ isBought, setIsBought ] = useState<boolean>(false)
 
     const getContactInfo = (isShowToast=false) => {
         PostApi.getContactInfo({ id: post.id }).then(res => {
@@ -62,6 +63,17 @@ function Detail({ post, likeList }: DetailProps) {
             isShowToast && Toast.fail(err.data.message)
         })
     }
+
+    const getIsBought = () => {
+        PostApi.isBought({ id: post.id }).then(res => {
+            setIsBought(res.data.data)
+            if (res.data.data) {
+                getContactInfo()
+            }
+        })
+    }
+
+    
 
     useEffect(() => {
         const _t = localStorage.getItem('_t')
@@ -73,8 +85,12 @@ function Detail({ post, likeList }: DetailProps) {
     }, [t])
 
     useEffect(() => {
-        if (token && post.price === 0) {
-            getContactInfo()
+        if (token) {
+            if (post.price === 0) {
+                getContactInfo()
+            } else {
+                getIsBought()
+            }
         }
     }, [token])
     
