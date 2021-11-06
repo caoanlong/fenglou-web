@@ -15,7 +15,7 @@ function MarqueeX() {
                 <Marquee gradient={false}>
                     {
                         notices.map((item: Notice) => (
-                            <div key={item.id} className="mt-6">{item.title}</div>
+                            <div key={item.id} className="mr-6">{item.title}</div>
                         ))
                     }
                 </Marquee>
